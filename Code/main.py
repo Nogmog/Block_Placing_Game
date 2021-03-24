@@ -6,7 +6,7 @@ import os
 # GAME CONSTANTS
 FPS = 60
 WIDTH, HEIGHT = 720, 576 # 16:9 ratio
-PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
+PROGRAMICON = pygame.image.load(os.path.join(os.pardir, "Assets", "TetrisIcon.jpg"))
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
