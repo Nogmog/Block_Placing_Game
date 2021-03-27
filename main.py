@@ -5,7 +5,8 @@ import os
 # grid: 10 x 20
 #"TEMPORARY" COLOURS
 YELLOW = (255, 255, 0)
-GREY = (102, 102, 102)
+DARK_GREY = (64, 64, 64)
+LIGHT_GREY = (102, 102, 102)
 
 # GAME CONSTANTS
 FPS = 60
@@ -25,16 +26,25 @@ def create_grid():
     total_width = block_per_grid * 10
     total_height = block_per_grid * 20
     starting_x, starting_y = (WIDTH / 2) - (total_width / 2), (HEIGHT / 2) - (total_height / 2)
+    print(block_per_grid, total_height, total_height, starting_x, starting_y)
 
-    main_frame = pygame.Rect(starting_x, starting_y, total_width, total_height)  
-    pygame.draw.rect(WINDOW, YELLOW, main_frame)
+    #main_frame = pygame.Rect(starting_x, starting_y, total_width, total_height)  
+    #pygame.draw.rect(WINDOW, DARK_GREY, main_frame)
 
     for i in range(200):
-        print(i)
         x_coordinate = starting_x +  (i % 10) * 10 * block_per_grid
         y_coordinate = starting_y +  (i // 10) * block_per_grid
+        print("Loop "+str(i)+": Coordinates ("+str(x_coordinate)+","+str(y_coordinate)+")")
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
-        pygame.draw.rect(WINDOW, GREY, block)
+        pygame.draw.rect(WINDOW, YELLOW, block)
+
+    for i in range(12):
+        lines = pygame.Rect(starting_x + (block_per_grid)*i, starting_y, 2, total_height)
+        pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
+
+    for i in range(22):
+        lines = pygame.Rect(starting_x, starting_y + (block_per_grid)*i, total_width, 2)
+        pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
         
     pygame.display.update()
 
