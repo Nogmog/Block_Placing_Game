@@ -2,6 +2,9 @@ import pygame
 import os
 
 
+from Code.brick_shapes import bricks, brick_colours
+
+
 #"TEMPORARY" COLOURS
 YELLOW = (255, 255, 0)
 DARK_GREY = (64, 64, 64)
@@ -46,6 +49,7 @@ def create_grid():
     pygame.display.update()
 
 def gameplay():
+
     create_grid()
 
 
