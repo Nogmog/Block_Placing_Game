@@ -26,8 +26,8 @@ def create_grid():
     total_height = block_per_grid * 20
     starting_x, starting_y = (WIDTH / 2) - (total_width / 2), (HEIGHT / 2) - (total_height / 2)
 
-    main_frame = pygame.Rect(starting_x, starting_y, total_width, total_height)  
-    pygame.draw.rect(WINDOW, YELLOW, main_frame)
+    background_area = pygame.Rect(starting_x, starting_y, total_width, total_height)  
+    pygame.draw.rect(WINDOW, YELLOW, background_area)
 
     for i in range(200): # draw each individual brick
         x_coordinate = starting_x +  (i % 10) * block_per_grid
