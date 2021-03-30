@@ -30,6 +30,12 @@ def blank_board():
 
 def draw_blocks(starting_x, starting_y, block_per_grid, board):
     for i in range(200): # draw each individual brick
+
+        x_point = i % 10 
+        y_point = i // 10
+        if board[y_point][x_point] == ".":
+            continue
+        
         x_coordinate = starting_x +  (i % 10) * block_per_grid
         y_coordinate = starting_y +  (i // 10) * block_per_grid
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
