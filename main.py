@@ -21,7 +21,13 @@ WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("BLOCK PLACING GAME")
 pygame.display.set_icon(PROGRAMICON)
 
-
+def blank_board():
+    board = []
+    for i in range(20):
+        board_temp = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
+        board.append(board_temp)
+        print(i)
+    return board
 
 def create_grid():
     block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
