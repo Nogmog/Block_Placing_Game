@@ -28,6 +28,13 @@ def blank_board():
         board.append(board_temp)
     return board
 
+def draw_blocks(starting_x, starting_y, block_per_grid):
+    for i in range(200): # draw each individual brick
+        x_coordinate = starting_x +  (i % 10) * block_per_grid
+        y_coordinate = starting_y +  (i // 10) * block_per_grid
+        block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
+        pygame.draw.rect(WINDOW, DARK_GREY, block)
+
 def create_grid():
     block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
     total_width = block_per_grid * 10
@@ -37,11 +44,7 @@ def create_grid():
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height)  
     pygame.draw.rect(WINDOW, YELLOW, background_area)
 
-    for i in range(200): # draw each individual brick
-        x_coordinate = starting_x +  (i % 10) * block_per_grid
-        y_coordinate = starting_y +  (i // 10) * block_per_grid
-        block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
-        pygame.draw.rect(WINDOW, DARK_GREY, block)
+    draw_blocks(starting_x, starting_y, block_per_grid)
 
     for i in range(11): # vertical lines
         lines = pygame.Rect(starting_x + (block_per_grid)*i, starting_y, 1, total_height)
