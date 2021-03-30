@@ -44,17 +44,16 @@ def create_grid():
         pygame.draw.rect(WINDOW, DARK_GREY, block)
 
     for i in range(11): # vertical lines
-        lines = pygame.Rect(starting_x + (block_per_grid)*i, starting_y, 2, total_height)
+        lines = pygame.Rect(starting_x + (block_per_grid)*i, starting_y, 1, total_height)
         pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
 
     for i in range(21): # horizontal lines
-        lines = pygame.Rect(starting_x, starting_y + (block_per_grid)*i, total_width, 2)
+        lines = pygame.Rect(starting_x, starting_y + (block_per_grid)*i, total_width, 1)
         pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
         
     pygame.display.update()
 
 def gameplay():
-
     create_grid()
 
 
