@@ -26,7 +26,6 @@ def blank_board():
     for i in range(20):
         board_temp = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
         board.append(board_temp)
-        print(i)
     return board
 
 def create_grid():
