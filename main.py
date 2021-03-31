@@ -16,6 +16,9 @@ WIDTH, HEIGHT = 720, 576 # 16:9 ratio
 #WIDTH, HEIGHT = 1920, 1080
 PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
 
+#VARIABLES
+queue = []
+
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("BLOCK PLACING GAME")
@@ -59,8 +62,12 @@ def create_grid(game_state):
     for i in range(21): # horizontal lines
         lines = pygame.Rect(starting_x, starting_y + (block_per_grid)*i, total_width, 1)
         pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
-        
-    pygame.display.update()
+    
+def show_queue():
+    pass
+
+def update_queue(old_queue):
+    pass
 
 def gameplay():
     print("Starting new game!")
@@ -76,6 +83,8 @@ def gameplay():
                 pygame.quit()
         
         create_grid(game_state)
+        queue = update_queue(queue)
+        pygame.display.update()
 
 
 if __name__ == "__main__":
