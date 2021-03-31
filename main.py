@@ -1,5 +1,6 @@
 import pygame
 import os
+import random
 
 
 from Code.brick_shapes import bricks, brick_colours
@@ -18,6 +19,8 @@ PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
 
 #VARIABLES
 queue = []
+bag_queue_14 = ["S", "S", "Z", "Z", "I", "I", "O", "O", "J", "J", "L", "L", "T", "T"]
+print(len(bag_queue_14))
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -66,8 +69,15 @@ def create_grid(game_state):
 def show_queue():
     pass
 
-def update_queue(old_queue):
-    pass
+def update_queue(queue):
+    while len(queue) < 7:
+        random_int = random.randint(0, len(bag_queue_14) - 1)
+        block = bag_queue_14[random_int]
+
+        bag_queue_14.pop(random_int)
+        queue.append(block)
+    return queue
+
 
 def gameplay():
     print("Starting new game!")
@@ -83,7 +93,7 @@ def gameplay():
                 pygame.quit()
         
         create_grid(game_state)
-        queue = update_queue(queue)
+        new_queue = update_queue(queue)
         pygame.display.update()
 
 
