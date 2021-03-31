@@ -5,6 +5,15 @@ import random
 
 from Code.brick_shapes import bricks, brick_colours
 
+#LOADING IMAGES
+PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
+I_img = pygame.image.load(os.path.join("Assets", "I_block.png"))
+J_img = pygame.image.load(os.path.join("Assets", "J_block.png"))
+L_img = pygame.image.load(os.path.join("Assets", "L_block.png"))
+O_img = pygame.image.load(os.path.join("Assets", "O_block.png"))
+S_img = pygame.image.load(os.path.join("Assets", "S_block.png"))
+Z_img = pygame.image.load(os.path.join("Assets", "Z_block.png"))
+T_img = pygame.image.load(os.path.join("Assets", "T_block.png"))
 
 #"TEMPORARY" COLOURS
 YELLOW = (255, 255, 0)
@@ -15,12 +24,12 @@ LIGHT_GREY = (102, 102, 102)
 FPS = 60
 WIDTH, HEIGHT = 720, 576 # 16:9 ratio
 #WIDTH, HEIGHT = 1920, 1080
-PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
 
 #VARIABLES
 queue = []
 bag_queue_14 = ["S", "S", "Z", "Z", "I", "I", "O", "O", "J", "J", "L", "L", "T", "T"]
 print(len(bag_queue_14))
+queue_length = 7
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -66,7 +75,7 @@ def create_grid(game_state):
         lines = pygame.Rect(starting_x, starting_y + (block_per_grid)*i, total_width, 1)
         pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
     
-def show_queue():
+def show_queue(queue):
     pass
 
 def update_queue(queue):
@@ -98,6 +107,7 @@ def gameplay():
         
         create_grid(game_state)
         new_queue = update_queue(queue)
+        show_queue(new_queue)
         pygame.display.update()
 
 
