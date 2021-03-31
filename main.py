@@ -70,7 +70,11 @@ def show_queue():
     pass
 
 def update_queue(queue):
+    global bag_queue_14
     while len(queue) < 7:
+        if len(bag_queue_14) == 0:
+            bag_queue_14 = ["S", "S", "Z", "Z", "I", "I", "O", "O", "J", "J", "L", "L", "T", "T"]
+
         random_int = random.randint(0, len(bag_queue_14) - 1)
         block = bag_queue_14[random_int]
 
