@@ -29,6 +29,7 @@ WIDTH, HEIGHT = 720, 576 # 16:9 ratio
 queue = []
 bag_queue_14 = ["S", "S", "Z", "Z", "I", "I", "O", "O", "J", "J", "L", "L", "T", "T"]
 queue_length = 7
+block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -42,7 +43,7 @@ def blank_board():
         board.append(board_temp)
     return board
 
-def draw_blocks(starting_x, starting_y, block_per_grid, board):
+def draw_blocks(starting_x, starting_y, board):
     for i in range(200): # draw each individual brick
 
         x_point = i % 10 
@@ -56,7 +57,6 @@ def draw_blocks(starting_x, starting_y, block_per_grid, board):
         pygame.draw.rect(WINDOW, DARK_GREY, block)
 
 def create_grid(game_state):
-    block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
     total_width = block_per_grid * 10
     total_height = block_per_grid * 20
     starting_x, starting_y = (WIDTH / 2) - (total_width / 2), (HEIGHT / 2) - (total_height / 2)
@@ -64,7 +64,7 @@ def create_grid(game_state):
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height)  
     pygame.draw.rect(WINDOW, YELLOW, background_area)
 
-    draw_blocks(starting_x, starting_y, block_per_grid, game_state)
+    draw_blocks(starting_x, starting_y, game_state)
 
     for i in range(11): # vertical lines
         lines = pygame.Rect(starting_x + (block_per_grid)*i, starting_y, 1, total_height)
@@ -75,7 +75,6 @@ def create_grid(game_state):
         pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
     
 def show_queue(queue):
-    block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
     total_width = block_per_grid * 2
     total_height = block_per_grid * 8
     starting_x, starting_y = (WIDTH / 2) + block_per_grid * 11, (HEIGHT / 2) - (total_height / 2)
