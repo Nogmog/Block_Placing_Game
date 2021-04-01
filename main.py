@@ -22,7 +22,7 @@ DARK_GREY = (64, 64, 64)
 LIGHT_GREY = (102, 102, 102)
 
 # GAME CONSTANTS
-FPS = 60
+FPS = 1
 WIDTH, HEIGHT = 720, 576 # 16:9 ratio
 #WIDTH, HEIGHT = 1920, 1080
 
@@ -95,9 +95,16 @@ def show_queue(queue):
 
     for i in range(len(queue) - 1):
         height = size * (i + 1)
-        if queue[i] == "S":
-            print(i,": S block")
-            WINDOW.blit(S_img, (centralise_x, height))
+        test_y = height #+ starting_y
+        if queue[i] == "I":
+            print(starting_y, size, height, test_y)
+            print(i,": I block")
+            print(block_images[0].get_width(), block_images[0].get_height())
+            WINDOW.blit(block_images[0], (starting_x, test_y))
+        elif queue[i] == "J":
+            WINDOW.blit(block_images[1], (starting_x, test_y))
+        elif queue[i] == "L":
+            WINDOW.blit(block_images[2], (starting_x, test_y))
     
 def update_queue(queue):
     global bag_queue_14
