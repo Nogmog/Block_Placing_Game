@@ -75,9 +75,9 @@ def create_grid(game_state):
         pygame.draw.rect(WINDOW, LIGHT_GREY, lines)
     
 def show_queue(queue):
-    total_width = block_per_grid * 2
+    total_width = block_per_grid * 3
     total_height = block_per_grid * 8
-    starting_x, starting_y = (WIDTH / 2) + block_per_grid * 11, (HEIGHT / 2) - (total_height / 2)
+    starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) - ( (block_per_grid * 20) / 2)
 
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height) 
     pygame.draw.rect(WINDOW, YELLOW, background_area)
