@@ -134,23 +134,33 @@ def update_queue(queue):
         queue.append(block)
     return queue
 
+def block_to_game():
+    pass
 
 def gameplay():
     print("Starting new game!")
     game_state = blank_board()
 
+    queue = update_queue([])
     clock = pygame.time.Clock()
     run = True
+    block_in_play = False
     while run:
         clock.tick(FPS)
+        
+        if not block_in_play:
+            block_in_play = True
+            block_to_game(game_state)
+            queue = update_queue(queue)
+        
+        create_grid(game_state)
+        show_queue(queue)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
         
-        create_grid(game_state)
-        new_queue = update_queue(queue)
-        show_queue(new_queue)
+
         pygame.display.update()
 
 
