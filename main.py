@@ -3,6 +3,9 @@ import os
 import random
 
 
+pygame.font.init()
+pygame.mixer.init()
+
 from Code.brick_shapes import bricks, brick_colours
 
 #LOADING IMAGES
@@ -18,6 +21,7 @@ block_images = [I_img, J_img, L_img, O_img, S_img, Z_img, T_img]
 resized_blocks = []
 
 #"TEMPORARY" COLOURS
+WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 DARK_GREY = (64, 64, 64)
 LIGHT_GREY = (102, 102, 102)
@@ -36,6 +40,7 @@ block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("BLOCK PLACING GAME")
+MAIN_FONT = pygame.font.SysFont("Comic Sans MS", 20)
 pygame.display.set_icon(PROGRAMICON)
 
 def resize_images(size):
@@ -87,12 +92,15 @@ def show_queue(queue):
     starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) - ( (block_per_grid * 20) / 2)
 
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height) 
-    pygame.draw.rect(WINDOW, YELLOW, background_area)
+    pygame.draw.rect(WINDOW, DARK_GREY, background_area)
 
     size = int(total_height // 8)
+    centralise_x = int(total_width // 2 - size // 2) + starting_x
+
     resize_images(size)
     
-    centralise_x = int(total_width // 2 - size // 2) + starting_x
+    queue_text = MAIN_FONT.render("QUEUE", 1, WHITE)
+    WINDOW.blit(queue_text, (starting_x,starting_y))
 
     for i in range(len(queue)):
         height = size * (i + 1)
