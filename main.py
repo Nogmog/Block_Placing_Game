@@ -16,13 +16,14 @@ Z_img = pygame.image.load(os.path.join("Assets", "Z block.png"))
 T_img = pygame.image.load(os.path.join("Assets", "T block.png"))
 block_images = [I_img, J_img, L_img, O_img, S_img, Z_img, T_img]
 resized_blocks = []
+
 #"TEMPORARY" COLOURS
 YELLOW = (255, 255, 0)
 DARK_GREY = (64, 64, 64)
 LIGHT_GREY = (102, 102, 102)
 
 # GAME CONSTANTS
-FPS = 1
+FPS = 60
 WIDTH, HEIGHT = 720, 576 # 16:9 ratio
 #WIDTH, HEIGHT = 1920, 1080
 
@@ -38,7 +39,7 @@ pygame.display.set_caption("BLOCK PLACING GAME")
 pygame.display.set_icon(PROGRAMICON)
 
 def resize_images(size):
-    for i in range(len(block_images) - 1):
+    for i in range(len(block_images)):
         block_images[i] = pygame.transform.scale(block_images[i], (size, size))
         #resized_blocks.append(pygame.transform.scale(block_images[i], (size, size)))
 
@@ -82,29 +83,35 @@ def create_grid(game_state):
     
 def show_queue(queue):
     total_width = block_per_grid * 3
-    total_height = block_per_grid * 10 #queue_length + block_per_grid
+    total_height = block_per_grid * 16
     starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) - ( (block_per_grid * 20) / 2)
 
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height) 
     pygame.draw.rect(WINDOW, YELLOW, background_area)
 
-    size = int((total_height - block_per_grid) // 9)
+    size = int(total_height // 8)
     resize_images(size)
     
     centralise_x = int(total_width // 2 - size // 2) + starting_x
 
-    for i in range(len(queue) - 1):
+    for i in range(len(queue)):
         height = size * (i + 1)
-        test_y = height #+ starting_y
+
         if queue[i] == "I":
-            print(starting_y, size, height, test_y)
-            print(i,": I block")
-            print(block_images[0].get_width(), block_images[0].get_height())
-            WINDOW.blit(block_images[0], (starting_x, test_y))
+            WINDOW.blit(block_images[0], (centralise_x, height))
         elif queue[i] == "J":
-            WINDOW.blit(block_images[1], (starting_x, test_y))
+            WINDOW.blit(block_images[1], (centralise_x, height))
         elif queue[i] == "L":
-            WINDOW.blit(block_images[2], (starting_x, test_y))
+            WINDOW.blit(block_images[2], (centralise_x, height))
+        elif queue[i] == "O":
+            WINDOW.blit(block_images[3], (centralise_x, height))
+        elif queue[i] == "S":
+            WINDOW.blit(block_images[4], (centralise_x, height))
+        elif queue[i] == "Z":
+            WINDOW.blit(block_images[5], (centralise_x, height))
+        elif queue[i] == "T":
+            WINDOW.blit(block_images[6], (centralise_x, height))
+        
     
 def update_queue(queue):
     global bag_queue_14
