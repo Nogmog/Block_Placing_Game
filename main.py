@@ -139,6 +139,9 @@ def block_to_game(board, next_block): # start from 3rd brick
     for y in range(5):
         for x in range(5):
             item = block_format[y][x]
+            board[y][x+3] = item
+    
+    print(board)
 
 def gameplay():
     print("Starting new game!")
