@@ -2,7 +2,6 @@ import pygame
 import os
 import random
 
-
 pygame.font.init()
 pygame.mixer.init()
 
@@ -134,8 +133,12 @@ def update_queue(queue):
         queue.append(block)
     return queue
 
-def block_to_game():
-    pass
+def block_to_game(board, next_block): # start from 3rd brick
+    block_format = bricks.__getattribute__(bricks, next_block)
+    block_format = block_format[0]
+    for y in range(5):
+        for x in range(5):
+            item = block_format[y][x]
 
 def gameplay():
     print("Starting new game!")
@@ -145,12 +148,15 @@ def gameplay():
     clock = pygame.time.Clock()
     run = True
     block_in_play = False
+    rotate = 0
     while run:
         clock.tick(FPS)
         
         if not block_in_play:
             block_in_play = True
-            block_to_game(game_state)
+            rotate = 0
+            next_block = queue[0]
+            block_to_game(game_state, next_block)
             queue = update_queue(queue)
         
         create_grid(game_state)
