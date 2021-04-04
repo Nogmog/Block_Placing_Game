@@ -136,12 +136,10 @@ def update_queue(queue):
 def block_to_game(board, next_block): # start from 3rd brick
     block_format = bricks.__getattribute__(bricks, next_block)
     block_format = block_format[0]
-    for y in range(5):
-        for x in range(5):
+    for y in range(4):
+        for x in range(4):
             item = block_format[y][x]
             board[y][x+3] = item
-    
-    print(board)
 
 def gameplay():
     print("Starting new game!")
