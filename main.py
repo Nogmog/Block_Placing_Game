@@ -49,21 +49,21 @@ def resize_images(size):
 
 def blank_board():
     board = []
-    for i in range(20):
+    for i in range(22):
         board_temp = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
         board.append(board_temp)
     return board
 
 def draw_blocks(starting_x, starting_y, board):
-    for i in range(200): # draw each individual brick
+    for i in range(220): # draw each individual brick
 
-        x_point = i % 10 
+        x_point = i % 10
         y_point = i // 10
         if board[y_point][x_point] == ".":
             continue
         
-        x_coordinate = starting_x +  (i % 10) * block_per_grid
-        y_coordinate = starting_y +  (i // 10) * block_per_grid
+        x_coordinate = starting_x +  x_point * block_per_grid
+        y_coordinate = starting_y +  y_point * block_per_grid
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
         pygame.draw.rect(WINDOW, DARK_GREY, block)
 
@@ -147,9 +147,11 @@ def gameplay():
 
     queue = update_queue([])
     clock = pygame.time.Clock()
+
     run = True
     block_in_play = False
     rotate = 0
+    current_block = []
     while run:
         clock.tick(FPS)
         
@@ -157,7 +159,9 @@ def gameplay():
             block_in_play = True
             rotate = 0
             next_block = queue[0]
+            queue.pop(0)
             block_to_game(game_state, next_block)
+
             queue = update_queue(queue)
         
         create_grid(game_state)
