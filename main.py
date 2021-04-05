@@ -136,10 +136,27 @@ def update_queue(queue):
 def block_to_game(board, next_block): # start from 3rd brick
     block_format = bricks.__getattribute__(bricks, next_block)
     block_format = block_format[0]
+    block_pos = []
     for y in range(4):
         for x in range(4):
             item = block_format[y][x]
+            if item == ".":
+                continue
             board[y][x+3] = item
+            block_pos.append([x+3, y])
+    return block_pos
+
+def move_block(coordinates, current_block, game_state):
+    print("Move block initiated")
+    for i in range(len(current_block)):
+        c_block_x = current_block[i][0]
+        c_block_y = current_block[i][1]
+        if game_state[c_block_y][c_block_x + coordinates[0]] == ".": # x coord check
+            print("Movable x")
+            
+
+
+
 
 def gameplay():
     print("Starting new game!")
@@ -160,7 +177,7 @@ def gameplay():
             rotate = 0
             next_block = queue[0]
             queue.pop(0)
-            block_to_game(game_state, next_block)
+            current_block = block_to_game(game_state, next_block)
 
             queue = update_queue(queue)
         
@@ -170,7 +187,11 @@ def gameplay():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-        
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    move_block([-1, 0], current_block, game_state)
+            
 
         pygame.display.update()
 
