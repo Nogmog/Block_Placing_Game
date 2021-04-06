@@ -150,7 +150,6 @@ def move_block(coordinates, current_block, game_state):
     print("Move block initiated")
     x_move = False
     y_move = False
-    new_block = current_block
     for i in range(len(current_block)):
         c_block_x = current_block[i][0]
         c_block_y = current_block[i][1]
@@ -161,20 +160,24 @@ def move_block(coordinates, current_block, game_state):
             if i == 3: y_move = True
     
     if x_move and y_move:
+        print("Moving")
         tetris_type = game_state[current_block[0][1]][current_block[0][0]]
-        new_block.clear()
+        new_block = []
         for i in range(len(current_block)): # Removes current block position
             c_block_x = current_block[i][0]
             c_block_y = current_block[i][1]
-
+            
             game_state[c_block_y][c_block_x] = "."
         
         for i in range(len(current_block)): # Draws new brick position
             c_block_x = current_block[i][0]
             c_block_y = current_block[i][1]
 
+            new_block.append([c_block_x + coordinates[0], c_block_y + coordinates[1]])
             game_state[c_block_y + coordinates[1]][c_block_x + coordinates[0]] = tetris_type
-            new_block = newblock.append([c_block_x + coordinates[0], c_block_y + coordinates[1]])
+        return new_block
+            
+    
     return current_block
 
 def gameplay():
@@ -208,8 +211,10 @@ def gameplay():
                 pygame.quit()
             
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT: # move left
                     current_block = move_block([-1, 0], current_block, game_state)
+                if event.key == pygame.K_RIGHT: # move right 
+                    current_block = move_block([1, 0], current_block, game_state)
             
 
         pygame.display.update()
