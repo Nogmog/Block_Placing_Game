@@ -49,13 +49,13 @@ def resize_images(size):
 
 def blank_board():
     board = []
-    for i in range(22):
+    for i in range(20):
         board_temp = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
         board.append(board_temp)
     return board
 
 def draw_blocks(starting_x, starting_y, board):
-    for i in range(220): # draw each individual brick
+    for i in range(200): # draw each individual brick
 
         x_point = i % 10
         y_point = i // 10
@@ -157,7 +157,7 @@ def move_block(coordinates, current_block, game_state): # function to move block
             if game_state[c_block_y][c_block_x + coordinates[0]] == "." or [c_block_x, c_block_y] in current_block: # x coord check
                 x_move += 1
         
-        if c_block_y + coordinates[1] >= 0 and c_block_y + coordinates[1] < 22:
+        if c_block_y + coordinates[1] >= 0 and c_block_y + coordinates[1] < 20:
             if game_state[c_block_y + coordinates[1]][c_block_x] == "." or [c_block_x, c_block_y] in current_block: # y coord check
                 y_move += 1
     
