@@ -149,17 +149,25 @@ def move_block(coordinates, current_block, game_state): # function to move block
     print("Move block initiated")
     x_move = 0
     y_move = 0
-    for i in range(len(current_block)):
-        c_block_x = current_block[i][0]
-        c_block_y = current_block[i][1]
+    for i in range(16):
+        x = i % 4
+        y = i // 4
+
+        item = current_block[y + 1][x]
+        if item == ".": continue
+        
+        c_block_x = x + current_block[0][0]
+        c_block_y = y + current_block[0][1]
+        
         if c_block_x + coordinates[0] >= 0 and c_block_x + coordinates[0] < 10: # check if in range of game
-            if game_state[c_block_y][c_block_x + coordinates[0]] == "." or [c_block_x, c_block_y] in current_block: # x coord check
+            if game_state[c_block_y][c_block_x + coordinates[0]] == "." or item != ".": # x coord check
                 x_move += 1
         
         if c_block_y + coordinates[1] >= 0 and c_block_y + coordinates[1] < 20:
-            if game_state[c_block_y + coordinates[1]][c_block_x] == "." or [c_block_x, c_block_y] in current_block: # y coord check
+            if game_state[c_block_y + coordinates[1]][c_block_x] == "." or item != ".": # y coord check
                 y_move += 1
     
+    print(x_move, y_move)
     if x_move == 4 and y_move == 4:
         print("Moving")
         tetris_type = game_state[current_block[0][1]][current_block[0][0]]
@@ -204,6 +212,7 @@ def gameplay():
             next_block = queue[0]
             queue.pop(0)
             current_block = block_to_game(game_state, next_block)
+            print(current_block)
 
             queue = update_queue(queue)
         
