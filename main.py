@@ -181,6 +181,10 @@ def move_block(coordinates, current_block, game_state): # function to move block
             
     return current_block
 
+def rotate_block(current_block, game_state, rotate):
+    print("Rotate block initiated")
+    
+
 def gameplay():
     print("Starting new game!")
     game_state = blank_board()
@@ -216,6 +220,8 @@ def gameplay():
                     current_block = move_block([-1, 0], current_block, game_state)
                 if event.key == pygame.K_RIGHT: # move right 
                     current_block = move_block([1, 0], current_block, game_state)
+                if event.key == pygame.K_UP: # rotate
+                    current_block, rotate = rotate_block(current_block, game_state, rotate)
         pygame.display.update()
 
 
