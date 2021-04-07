@@ -170,22 +170,19 @@ def move_block(coordinates, current_block, game_state): # function to move block
     print(x_move, y_move)
     if x_move == 4 and y_move == 4:
         print("Moving")
-        tetris_type = game_state[current_block[0][1]][current_block[0][0]]
-        new_block = []
-        for i in range(len(current_block)): # Removes current block position
-            c_block_x = current_block[i][0]
-            c_block_y = current_block[i][1]
-            
-            game_state[c_block_y][c_block_x] = "."
         
-        for i in range(len(current_block)): # Draws new brick position
-            c_block_x = current_block[i][0]
-            c_block_y = current_block[i][1]
+        for i in range(16):
+            x = i % 4
+            y = i // 4
 
-            new_block.append([c_block_x + coordinates[0], c_block_y + coordinates[1]])
-            game_state[c_block_y + coordinates[1]][c_block_x + coordinates[0]] = tetris_type
-        return new_block
-            
+            item = current_block[y + 1][x]
+            if item == ".": continue
+
+            c_block_x = x + current_block[0][0]
+            c_block_y = y + current_block[0][1]
+            game_state[c_block_y][c_block_x] = "."
+            game_state[c_block_y + coordinates[1]][c_block_x + coordinates[0]] = item 
+        current_block[0] = [current_block[0][0] + coordinates[0], current_block[0][1] + coordinates[1]]
     return current_block
 
 def rotate_block(current_block, game_state, rotate):
