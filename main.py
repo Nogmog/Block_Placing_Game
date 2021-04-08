@@ -181,8 +181,20 @@ def move_block(coordinates, current_block, game_state): # function to move block
             c_block_x = x + current_block[0][0]
             c_block_y = y + current_block[0][1]
             game_state[c_block_y][c_block_x] = "."
-            game_state[c_block_y + coordinates[1]][c_block_x + coordinates[0]] = item 
+        
         current_block[0] = [current_block[0][0] + coordinates[0], current_block[0][1] + coordinates[1]]
+
+        for i in range(16):
+            x = i % 4
+            y = i // 4
+
+            item = current_block[y + 1][x]
+            if item == ".": continue
+
+            c_block_x = x + current_block[0][0]
+            c_block_y = y + current_block[0][1]
+            game_state[c_block_y][c_block_x] = item 
+
     return current_block
 
 def rotate_block(current_block, game_state, rotate):
