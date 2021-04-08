@@ -199,6 +199,22 @@ def move_block(coordinates, current_block, game_state): # function to move block
 
 def rotate_block(current_block, game_state, rotate):
     print("Rotate block initiated")
+    i = 0
+    new_rotation = ""
+    while True: # makes new rotated block
+        x = i % 4
+        y = i // 4
+        item = current_block[y + 1][x]
+        if item == "O":
+            return current_block, rotate
+        elif item != ".":
+            rotation_length = len(bricks.__getattribute__(bricks, item))
+            new_rotation = bricks.__getattribute__(bricks, item)[rotate % rotation_length]
+            break        
+        i += 1
+
+    for i in range(16):
+        pass
 
 
 def gameplay():
@@ -238,7 +254,7 @@ def gameplay():
                 if event.key == pygame.K_RIGHT: # move right 
                     current_block = move_block([1, 0], current_block, game_state)
                 if event.key == pygame.K_UP: # rotate
-                    pass#current_block, rotate = rotate_block(current_block, game_state, rotate)
+                    current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
         pygame.display.update()
 
 
