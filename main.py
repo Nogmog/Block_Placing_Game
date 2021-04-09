@@ -157,11 +157,6 @@ def block_to_game(board, next_block): # start from 3rd brick
     block_format = bricks.__getattribute__(bricks, next_block)
     block_format = block_format[0]
     block_pos = [[3, 0], block_format[0], block_format[1], block_format[2], block_format[3]]
-    for y in range(4):
-        for x in range(4):
-            item = block_format[y][x]
-            if item == ".": continue
-            board[y][x+3] = item
     return block_pos
 
 
@@ -180,11 +175,11 @@ def move_block(coordinates, current_block, game_state): # function to move block
         c_block_y = y + current_block[0][1]
         
         if c_block_x + coordinates[0] >= 0 and c_block_x + coordinates[0] < 10: # check if in range of game
-            if game_state[c_block_y][c_block_x + coordinates[0]] == "." or current_block[y][x] == ".": # x coord check
+            if game_state[c_block_y][c_block_x + coordinates[0]] == ".": # x coord check
                 x_move += 1
         
         if c_block_y + coordinates[1] >= 0 and c_block_y + coordinates[1] < 20:
-            if game_state[c_block_y + coordinates[1]][c_block_x] == "." or item != ".": # y coord check
+            if game_state[c_block_y + coordinates[1]][c_block_x] == ".": # y coord check
                 y_move += 1
     
     print(x_move, y_move)
