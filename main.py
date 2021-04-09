@@ -50,11 +50,11 @@ def resize_images(size):
 def blank_board():
     board = []
     for i in range(20):
-        board_temp = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
+        board_temp = ["X", ".", ".", ".", ".", ".", ".", ".", ".", "."]
         board.append(board_temp)
     return board
 
-def draw_blocks(starting_x, starting_y, board):
+def draw_blocks(starting_x, starting_y, board, current_block):
     for i in range(200): # draw each individual brick
 
         x_point = i % 10
@@ -66,8 +66,28 @@ def draw_blocks(starting_x, starting_y, board):
         y_coordinate = starting_y +  y_point * block_per_grid
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
         pygame.draw.rect(WINDOW, DARK_GREY, block)
+    
+    for i in range(16):
+        x = i % 4
+        y = i // 4
+        x_point = i % 10
+        y_point = i // 10
 
-def create_grid(game_state):
+        item = current_block[y + 1][x]
+        if item == ".": continue
+
+        c_block_x = x + current_block[0][0]
+        c_block_y = y + current_block[0][1]
+        #game_state[c_block_y][c_block_x] = item
+        x_coordinate = starting_x +  c_block_x * block_per_grid
+        y_coordinate = starting_y +  c_block_y * block_per_grid
+
+        #x_coordinate = starting_x +  x_point * block_per_grid
+        #y_coordinate = starting_y +  y_point * block_per_grid
+        block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
+        pygame.draw.rect(WINDOW, DARK_GREY, block)
+
+def create_grid(game_state, current_block):
     total_width = block_per_grid * 10
     total_height = block_per_grid * 20
     starting_x, starting_y = (WIDTH / 2) - (total_width / 2), (HEIGHT / 2) - (total_height / 2)
@@ -75,7 +95,7 @@ def create_grid(game_state):
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height)  
     pygame.draw.rect(WINDOW, YELLOW, background_area)
 
-    draw_blocks(starting_x, starting_y, game_state)
+    draw_blocks(starting_x, starting_y, game_state, current_block)
 
     for i in range(11): # vertical lines
         lines = pygame.Rect(starting_x + (block_per_grid)*i, starting_y, 1, total_height)
@@ -160,7 +180,7 @@ def move_block(coordinates, current_block, game_state): # function to move block
         c_block_y = y + current_block[0][1]
         
         if c_block_x + coordinates[0] >= 0 and c_block_x + coordinates[0] < 10: # check if in range of game
-            if game_state[c_block_y][c_block_x + coordinates[0]] == "." or item != ".": # x coord check
+            if game_state[c_block_y][c_block_x + coordinates[0]] == "." or current_block[y][x] == ".": # x coord check
                 x_move += 1
         
         if c_block_y + coordinates[1] >= 0 and c_block_y + coordinates[1] < 20:
@@ -170,30 +190,7 @@ def move_block(coordinates, current_block, game_state): # function to move block
     print(x_move, y_move)
     if x_move == 4 and y_move == 4:
         print("Moving")
-        
-        for i in range(16):
-            x = i % 4
-            y = i // 4
-
-            item = current_block[y + 1][x]
-            if item == ".": continue
-
-            c_block_x = x + current_block[0][0]
-            c_block_y = y + current_block[0][1]
-            game_state[c_block_y][c_block_x] = "."
-        
         current_block[0] = [current_block[0][0] + coordinates[0], current_block[0][1] + coordinates[1]]
-
-        for i in range(16):
-            x = i % 4
-            y = i // 4
-
-            item = current_block[y + 1][x]
-            if item == ".": continue
-
-            c_block_x = x + current_block[0][0]
-            c_block_y = y + current_block[0][1]
-            game_state[c_block_y][c_block_x] = item 
 
     return current_block
 
@@ -213,8 +210,6 @@ def rotate_block(current_block, game_state, rotate):
             break        
         i += 1
 
-    for i in range(16):
-        pass
 
 
 def gameplay():
@@ -241,7 +236,7 @@ def gameplay():
 
             queue = update_queue(queue)
         
-        create_grid(game_state)
+        create_grid(game_state, current_block)
         show_queue(queue)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
