@@ -50,7 +50,7 @@ def resize_images(size):
 def blank_board():
     board = []
     for i in range(20):
-        board_temp = ["X", ".", ".", ".", ".", ".", ".", ".", ".", "."]
+        board_temp = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
         board.append(board_temp)
     return board
 
@@ -78,12 +78,10 @@ def draw_blocks(starting_x, starting_y, board, current_block):
 
         c_block_x = x + current_block[0][0]
         c_block_y = y + current_block[0][1]
-        #game_state[c_block_y][c_block_x] = item
+        
         x_coordinate = starting_x +  c_block_x * block_per_grid
         y_coordinate = starting_y +  c_block_y * block_per_grid
 
-        #x_coordinate = starting_x +  x_point * block_per_grid
-        #y_coordinate = starting_y +  y_point * block_per_grid
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
         pygame.draw.rect(WINDOW, DARK_GREY, block)
 
@@ -191,9 +189,8 @@ def move_block(coordinates, current_block, game_state): # function to move block
 
 def rotate_block(current_block, game_state, rotate):
     print("Rotate block initiated")
-    i = 0
-    new_rotation = ""
-    while True: # makes new rotated block
+    new_rotation = [current_block[0]]
+    for i in range(16): # makes new rotated block
         x = i % 4
         y = i // 4
         item = current_block[y + 1][x]
@@ -201,9 +198,30 @@ def rotate_block(current_block, game_state, rotate):
             return current_block, rotate
         elif item != ".":
             rotation_length = len(bricks.__getattribute__(bricks, item))
-            new_rotation = bricks.__getattribute__(bricks, item)[rotate % rotation_length]
-            break        
-        i += 1
+            new_rotate_list = bricks.__getattribute__(bricks, item)[rotate % rotation_length]
+
+            for x in range(4): # as new_rotate_list is a separate list, we are separating so it is in the normal format
+                new_rotation.append(new_rotate_list[x])
+            break
+
+    movable = 0
+    for i in range(16):
+        x = i % 4
+        y = i // 4
+
+        if new_rotation[y + 1][x] == ".":
+            continue
+
+        c_block_x = x + new_rotation[0][0]
+        c_block_y = y + new_rotation[0][1]
+
+        if game_state[c_block_y][c_block_x] == ".": # x coord check
+            movable += 1
+        
+    if movable == 4:
+        return new_rotation, rotate
+    else: return current_block, rotate - 1
+
 
 
 
