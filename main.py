@@ -267,12 +267,14 @@ def gameplay():
                     current_block = move_block([1, 0], current_block, game_state)
                 if event.key == pygame.K_UP: # rotate
                     current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
+                if event.key == pygame.K_DOWN: # down
+                    current_block = move_block([0, 1], current_block, game_state)
         pygame.display.update()
 
         if (drop_time / 1000) > (1 / level):
             move_block([0, 1], current_block, game_state)
             drop_time = 0
-
+        
 
 if __name__ == "__main__":
     gameplay() 
