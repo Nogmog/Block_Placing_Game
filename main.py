@@ -75,7 +75,7 @@ def draw_blocks(starting_x, starting_y, board, current_block):
 
         item = current_block[y + 1][x]
         if item == ".": continue
-        
+
         block_colour = brick_colours.__getattribute__(brick_colours, item)
 
         c_block_x = x + current_block[0][0]
@@ -238,8 +238,11 @@ def gameplay():
     block_in_play = False
     rotate = 0
     current_block = []
+    level = 1
+    drop_time = 0
     while run:
         clock.tick(FPS)
+        drop_time += clock.get_rawtime()
         
         if not block_in_play:
             block_in_play = True
@@ -247,8 +250,7 @@ def gameplay():
             next_block = queue[0]
             queue.pop(0)
             current_block = block_to_game(game_state, next_block)
-            print(current_block)
-
+            drop_time = 0
             queue = update_queue(queue)
         
         create_grid(game_state, current_block)
@@ -266,6 +268,10 @@ def gameplay():
                 if event.key == pygame.K_UP: # rotate
                     current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
         pygame.display.update()
+
+        if (drop_time / 1000) > (1 / level):
+            move_block([0, 1], current_block, game_state)
+            drop_time = 0
 
 
 if __name__ == "__main__":
