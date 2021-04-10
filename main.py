@@ -75,6 +75,8 @@ def draw_blocks(starting_x, starting_y, board, current_block):
 
         item = current_block[y + 1][x]
         if item == ".": continue
+        
+        block_colour = brick_colours.__getattribute__(brick_colours, item)
 
         c_block_x = x + current_block[0][0]
         c_block_y = y + current_block[0][1]
@@ -83,7 +85,7 @@ def draw_blocks(starting_x, starting_y, board, current_block):
         y_coordinate = starting_y +  c_block_y * block_per_grid
 
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
-        pygame.draw.rect(WINDOW, DARK_GREY, block)
+        pygame.draw.rect(WINDOW, block_colour, block)
 
 def create_grid(game_state, current_block):
     total_width = block_per_grid * 10
@@ -91,7 +93,7 @@ def create_grid(game_state, current_block):
     starting_x, starting_y = (WIDTH / 2) - (total_width / 2), (HEIGHT / 2) - (total_height / 2)
 
     background_area = pygame.Rect(starting_x, starting_y, total_width, total_height)  
-    pygame.draw.rect(WINDOW, YELLOW, background_area)
+    pygame.draw.rect(WINDOW, DARK_GREY, background_area)
 
     draw_blocks(starting_x, starting_y, game_state, current_block)
 
