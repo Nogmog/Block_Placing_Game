@@ -245,6 +245,8 @@ def place_block(current_block, game_state):
     
     return game_state
 
+def remove_blocks(score): # Removes blocks if in line
+    pass
 
 def gameplay():
     print("Starting new game!")
@@ -259,6 +261,7 @@ def gameplay():
     current_block = []
     level = 1
     drop_time = 0
+    score = 0
     while run:
         clock.tick(FPS)
         drop_time += clock.get_rawtime()
@@ -287,8 +290,9 @@ def gameplay():
                 if event.key == pygame.K_UP: # rotate
                     current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
                 if event.key == pygame.K_DOWN: # down
-                    move_block([0, 1], current_block, game_state)
-                    drop_time = 0
+                    moved = move_block([0, 1], current_block, game_state)
+                    if moved:
+                        drop_time = 0
         pygame.display.update()
         #print(drop_time)
         if (drop_time / 200) > (1 / level):
@@ -299,6 +303,7 @@ def gameplay():
                 game_state = place_block(current_block, game_state)
                 print(game_state)
                 block_in_play = False
+                remove_blocks(score)
             
         
 
