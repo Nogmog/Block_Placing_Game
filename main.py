@@ -63,12 +63,14 @@ def draw_blocks(starting_x, starting_y, board, current_block):
         if board[y_point][x_point] == ".":
             continue
         
+        block_colour = brick_colours.__getattribute__(brick_colours, board[y_point][x_point])
+
         x_coordinate = starting_x +  x_point * block_per_grid
         y_coordinate = starting_y +  y_point * block_per_grid
         block = pygame.Rect(x_coordinate, y_coordinate, block_per_grid, block_per_grid)
-        pygame.draw.rect(WINDOW, DARK_GREY, block)
+        pygame.draw.rect(WINDOW, block_colour, block)
     
-    for i in range(16):
+    for i in range(16): # draws brick in game
         x = i % 4
         y = i // 4
 
@@ -242,7 +244,6 @@ def place_block(current_block, game_state):
         #print(game_state[y_grid_position][x_grid_position])
     
     return game_state
-
 
 
 def gameplay():
