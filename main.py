@@ -198,7 +198,7 @@ def rotate_block(current_block, game_state, rotate):
         y = i // 4
         item = current_block[y + 1][x]
         if item == "O":
-            return current_block, rotate
+            return current_block, rotate - 1
         elif item != ".":
             rotation_length = len(bricks.__getattribute__(bricks, item))
             new_rotate_list = bricks.__getattribute__(bricks, item)[rotate % rotation_length]
@@ -220,17 +220,28 @@ def rotate_block(current_block, game_state, rotate):
 
         if game_state[c_block_y][c_block_x] == ".": # x coord check
             movable += 1
-        
+    print(movable)
     if movable == 4:
-        return rotate
-    else: return rotate - 1
+        return new_rotation, rotate
+    else: return current_block, rotate - 1
 
 def place_block(current_block, game_state):
-    for i in range(16):
-        x = i % 4
-        y = i // 4
+    for num in range(16):
+        print(num)
+        x = num % 4
+        y = num // 4
 
+        item = current_block[y + 1][x]
+        if item == ".": continue
 
+        x_grid_position = x + current_block[0][0]
+        y_grid_position = y + current_block[0][1]
+        print(x_grid_position, y_grid_position)
+
+        game_state[y_grid_position][x_grid_position] = item
+        #print(game_state[y_grid_position][x_grid_position])
+    
+    return game_state
 
 
 
@@ -273,18 +284,19 @@ def gameplay():
                 if event.key == pygame.K_RIGHT: # move right 
                    move_block([1, 0], current_block, game_state)
                 if event.key == pygame.K_UP: # rotate
-                    rotate = rotate_block(current_block, game_state, rotate + 1)
+                    current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
                 if event.key == pygame.K_DOWN: # down
                     move_block([0, 1], current_block, game_state)
                     drop_time = 0
         pygame.display.update()
-        print(drop_time)
-        if (drop_time / 100) > (1 / level):
+        #print(drop_time)
+        if (drop_time / 200) > (1 / level):
             drop_time = 0
             moved = move_block([0, 1], current_block, game_state)
 
             if not moved:
-                place_block(current_block, game_state)
+                game_state = place_block(current_block, game_state)
+                print(game_state)
                 block_in_play = False
             
         
