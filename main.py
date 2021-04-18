@@ -71,8 +71,6 @@ def draw_blocks(starting_x, starting_y, board, current_block):
     for i in range(16):
         x = i % 4
         y = i // 4
-        x_point = i % 10
-        y_point = i // 10
 
         item = current_block[y + 1][x]
         if item == ".": continue
@@ -229,6 +227,10 @@ def rotate_block(current_block, game_state, rotate):
 
 def place_block(current_block, game_state):
     for i in range(16):
+        x = i % 4
+        y = i // 4
+
+
 
 
 
