@@ -42,6 +42,7 @@ pygame.display.set_caption("BLOCK PLACING GAME")
 MAIN_FONT = pygame.font.SysFont("Comic Sans MS", 20)
 pygame.display.set_icon(PROGRAMICON)
 
+#GAME FUNCTIONS
 def resize_images(size):
     for i in range(len(block_images)):
         block_images[i] = pygame.transform.scale(block_images[i], (size, size))
@@ -271,7 +272,7 @@ def gameplay():
                     current_block = move_block([0, 1], current_block, game_state)
         pygame.display.update()
 
-        if (drop_time / 1000) > (1 / level):
+        if (drop_time / 100) > (1 / level):
             move_block([0, 1], current_block, game_state)
             drop_time = 0
         
