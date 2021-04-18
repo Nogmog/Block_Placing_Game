@@ -229,7 +229,6 @@ def rotate_block(current_block, game_state, rotate):
 
 def place_block(current_block, game_state):
     for num in range(16):
-        print(num)
         x = num % 4
         y = num // 4
 
@@ -238,15 +237,20 @@ def place_block(current_block, game_state):
 
         x_grid_position = x + current_block[0][0]
         y_grid_position = y + current_block[0][1]
-        print(x_grid_position, y_grid_position)
 
         game_state[y_grid_position][x_grid_position] = item
         #print(game_state[y_grid_position][x_grid_position])
     
     return game_state
 
-def remove_blocks(score): # Removes blocks if in line
-    pass
+def remove_blocks(game_state, score): # Removes blocks if in line
+    combo = 0
+    for y in range(19, -1, -1):
+        for x in range(10):
+            if game_state[y][x] == ".":
+                break
+
+    print(combo)
 
 def gameplay():
     print("Starting new game!")
@@ -259,7 +263,7 @@ def gameplay():
     block_in_play = False
     rotate = 0
     current_block = []
-    level = 1
+    level = 5
     drop_time = 0
     score = 0
     while run:
@@ -301,9 +305,8 @@ def gameplay():
 
             if not moved:
                 game_state = place_block(current_block, game_state)
-                print(game_state)
                 block_in_play = False
-                remove_blocks(score)
+                remove_blocks(game_state, score)
             
         
 
