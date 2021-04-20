@@ -260,6 +260,11 @@ def remove_blocks(game_state, score): # Removes blocks if in line
             combo += 1
         elif not line_full and start_checking:
             print(combo, " lines cleared")
+            
+            for i in range(combo):
+                game_state.pop(y + i + 1)
+                game_state.insert(0, [".", ".", ".", ".", ".", ".", ".", ".", ".", "."])
+            break
     
 def gameplay():
     print("Starting new game!")
