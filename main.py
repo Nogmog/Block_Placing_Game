@@ -162,7 +162,7 @@ def block_to_game(board, next_block): # start from 3rd brick
 
 
 def move_block(coordinates, current_block, game_state): # function to move block
-    print("Move block initiated")
+    #print("Move block initiated")
     x_move = 0
     y_move = 0
     moved = False
@@ -184,9 +184,9 @@ def move_block(coordinates, current_block, game_state): # function to move block
             if game_state[c_block_y + coordinates[1]][c_block_x] == ".": # y coord check
                 y_move += 1
     
-    print(x_move, y_move)
+    #print(x_move, y_move)
     if x_move == 4 and y_move == 4:
-        print("Moving")
+        #print("Moving")
         current_block[0] = [current_block[0][0] + coordinates[0], current_block[0][1] + coordinates[1]]
         moved = True
 
@@ -243,7 +243,7 @@ def place_block(current_block, game_state):
     
     return game_state
 
-def remove_blocks(game_state, score): # Removes blocks if in line
+def remove_blocks(game_state, score, level): # Removes blocks if in line
     combo = 0
     start_checking = False
     for y in range(19, -1, -1):
@@ -264,7 +264,9 @@ def remove_blocks(game_state, score): # Removes blocks if in line
             for i in range(combo):
                 game_state.pop(y + i + 1)
                 game_state.insert(0, [".", ".", ".", ".", ".", ".", ".", ".", ".", "."])
+            score += ((2 ** combo) * (level + 1))* 10
             break
+    return score
     
 def gameplay():
     print("Starting new game!")
@@ -320,8 +322,9 @@ def gameplay():
             if not moved:
                 game_state = place_block(current_block, game_state)
                 block_in_play = False
-                remove_blocks(game_state, score)
-            
+                score += 1
+                score = remove_blocks(game_state, score, level)
+                
         
 
 if __name__ == "__main__":
