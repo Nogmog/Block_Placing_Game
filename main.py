@@ -245,13 +245,22 @@ def place_block(current_block, game_state):
 
 def remove_blocks(game_state, score): # Removes blocks if in line
     combo = 0
+    start_checking = False
     for y in range(19, -1, -1):
+        line_full = False
         for x in range(10):
             if game_state[y][x] == ".":
                 break
 
-    print(combo)
-
+            if x == 9:
+                line_full = True
+                start_checking = True
+            
+        if line_full and start_checking:
+            combo += 1
+        elif not line_full and start_checking:
+            print(combo, " lines cleared")
+    
 def gameplay():
     print("Starting new game!")
     game_state = blank_board()
