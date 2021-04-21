@@ -35,11 +35,13 @@ queue = []
 bag_queue_14 = ["S", "S", "Z", "Z", "I", "I", "O", "O", "J", "J", "L", "L", "T", "T"]
 queue_length = 7
 block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
+MAIN_FONT = pygame.font.SysFont("Comic Sans MS", 20)
+SCORE_WORD = pygame.font.SysFont("Comic Sans MS", 20)
+SCORE_NUMBER = pygame.font.SysFont("Comic Sans MS", 20)
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("BLOCK PLACING GAME")
-MAIN_FONT = pygame.font.SysFont("Comic Sans MS", 20)
 pygame.display.set_icon(PROGRAMICON)
 
 #GAME FUNCTIONS
@@ -267,7 +269,7 @@ def remove_blocks(game_state, score, level): # Removes blocks if in line
             score += ((2 ** combo) * (level + 1))* 10
             break
     return score
-    
+
 def gameplay():
     print("Starting new game!")
     game_state = blank_board()
@@ -314,7 +316,7 @@ def gameplay():
                     if moved:
                         drop_time = 0
         pygame.display.update()
-        #print(drop_time)
+
         if (drop_time / 200) > (1 / level):
             drop_time = 0
             moved = move_block([0, 1], current_block, game_state)
@@ -324,7 +326,12 @@ def gameplay():
                 block_in_play = False
                 score += 1
                 score = remove_blocks(game_state, score, level)
-                
+
+        starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) + ( (block_per_grid * 12) / 2)
+        score_words = MAIN_FONT.render("SCORE", 1, WHITE)
+        score_numbers = MAIN_FONT.render(str(score), 1, WHITE)
+        WINDOW.blit(score_words, (starting_x,starting_y))
+        WINDOW.blit(score_numbers, (starting_x,starting_y + block_per_grid))
         
 
 if __name__ == "__main__":
