@@ -9,6 +9,8 @@ from Code.brick_shapes import bricks, brick_colours
 
 #LOADING IMAGES
 PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
+BLACK_WALL = pygame.image.load(os.path.join("Assets", "Black wall.png"))
+
 I_img = pygame.image.load(os.path.join("Assets", "I block.png"))
 J_img = pygame.image.load(os.path.join("Assets", "J block.png"))
 L_img = pygame.image.load(os.path.join("Assets", "L block.png"))
@@ -20,6 +22,7 @@ block_images = [I_img, J_img, L_img, O_img, S_img, Z_img, T_img]
 resized_blocks = []
 
 #"TEMPORARY" COLOURS
+BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 DARK_GREY = (64, 64, 64)
@@ -35,9 +38,11 @@ queue = []
 bag_queue_14 = ["S", "S", "Z", "Z", "I", "I", "O", "O", "J", "J", "L", "L", "T", "T"]
 queue_length = 7
 block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
+
 MAIN_FONT = pygame.font.SysFont("Comic Sans MS", 20)
 SCORE_WORD = pygame.font.SysFont("Comic Sans MS", 20)
 SCORE_NUMBER = pygame.font.SysFont("Comic Sans MS", 20)
+BLACK_WALL = pygame.transform.scale(BLACK_WALL, (WIDTH, HEIGHT))
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -287,6 +292,7 @@ def gameplay():
     while run:
         clock.tick(FPS)
         drop_time += clock.get_rawtime()
+        WINDOW.blit(BLACK_WALL, (0, 0))
         
         if not block_in_play:
             block_in_play = True
@@ -299,6 +305,13 @@ def gameplay():
         
         create_grid(game_state, current_block)
         show_queue(queue)
+
+        starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) + ( (block_per_grid * 12) / 2)
+        score_words = MAIN_FONT.render("SCORE", 1, WHITE)
+        score_numbers = MAIN_FONT.render(str(score), 1, WHITE)
+        WINDOW.blit(score_words, (starting_x,starting_y))
+        WINDOW.blit(score_numbers, (starting_x,starting_y + block_per_grid))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -326,12 +339,6 @@ def gameplay():
                 block_in_play = False
                 score += 1
                 score = remove_blocks(game_state, score, level)
-
-        starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) + ( (block_per_grid * 12) / 2)
-        score_words = MAIN_FONT.render("SCORE", 1, WHITE)
-        score_numbers = MAIN_FONT.render(str(score), 1, WHITE)
-        WINDOW.blit(score_words, (starting_x,starting_y))
-        WINDOW.blit(score_numbers, (starting_x,starting_y + block_per_grid))
         
 
 if __name__ == "__main__":
