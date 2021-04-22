@@ -165,6 +165,20 @@ def block_to_game(board, next_block): # start from 3rd brick
     block_format = bricks.__getattribute__(bricks, next_block)
     block_format = block_format[0]
     block_pos = [[3, 0], block_format[0], block_format[1], block_format[2], block_format[3]]
+
+    passed = 0
+    for i in range(16):
+        x = i % 4
+        y = i // 4
+        if block_pos[y + 1][x] == ".":
+            continue
+        c_block_x = x + block_pos[0][0]
+        c_block_y = y + block_pos[0][1]
+
+        if board[c_block_y][c_block_x] == ".": # x coord check
+            passed += 1
+    
+    if passed != 4: return "GAME OVER"
     return block_pos
 
 
@@ -300,9 +314,13 @@ def gameplay():
         if not block_in_play:
             block_in_play = True
             rotate = 0
-            next_block = queue[0]
+            current_block = block_to_game(game_state, queue[0])
+            if current_block == "GAME OVER":
+                run = False
+                print("Game over")
+                continue
+
             queue.pop(0)
-            current_block = block_to_game(game_state, next_block)
             drop_time = 0
             queue = update_queue(queue)
         
