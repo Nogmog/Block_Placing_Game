@@ -292,6 +292,14 @@ def remove_blocks(game_state, score, level): # Removes blocks if in line
             break
     return score
 
+def game_over():
+    size_x, size_y = WIDTH // 2, HEIGHT // 3
+    x_pos, y_pos = (WIDTH / 2) - (size_x / 2), (HEIGHT / 2) - (size_y / 2)
+    background_window = pygame.Rect(x_pos, y_pos, size_x, size_y) 
+    pygame.draw.rect(WINDOW, DARK_GREY, background_window)
+
+    pygame.display.update()
+
 def gameplay():
     print("Starting new game!")
     game_state = blank_board()
@@ -317,7 +325,6 @@ def gameplay():
             current_block = block_to_game(game_state, queue[0])
             if current_block == "GAME OVER":
                 run = False
-                print("Game over")
                 continue
 
             queue.pop(0)
@@ -360,6 +367,8 @@ def gameplay():
                 block_in_play = False
                 score += 1
                 score = remove_blocks(game_state, score, level)
+
+    game_over()
         
 
 if __name__ == "__main__":
