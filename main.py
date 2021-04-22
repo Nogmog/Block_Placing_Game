@@ -227,6 +227,9 @@ def rotate_block(current_block, game_state, rotate):
         c_block_x = x + new_rotation[0][0]
         c_block_y = y + new_rotation[0][1]
 
+        if c_block_y > 19 or c_block_y < 0 or c_block_x > 9 or c_block_x < 0:
+            continue
+
         if game_state[c_block_y][c_block_x] == ".": # x coord check
             movable += 1
     print(movable)
