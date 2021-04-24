@@ -369,6 +369,8 @@ def gameplay():
                    move_block([1, 0], current_block, game_state)
                 if event.key == pygame.K_UP: # rotate
                     current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
+                if event.key == pygame.K_z: # anti - clockwise
+                    current_block, rotate = rotate_block(current_block, game_state, rotate - 1)
                 if event.key == pygame.K_DOWN: # down
                     moved = move_block([0, 1], current_block, game_state)
                     if moved:
