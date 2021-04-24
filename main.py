@@ -290,7 +290,7 @@ def remove_blocks(game_state, score, level): # Removes blocks if in line
                 game_state.insert(0, [".", ".", ".", ".", ".", ".", ".", ".", ".", "."])
             score += ((2 ** combo) * (level + 1))* 10
             break
-    return score
+    return score, combo
 
 def show_extras(score, level, hold_brick):
     #Showing Score
@@ -352,9 +352,10 @@ def gameplay():
     hold_change = True
     rotate = 0
     current_block = []
-    level = 5
+    level = 1
     drop_time = 0
     score = 0
+    lines_cleared = 0
     while run:
         clock.tick(FPS)
         drop_time += clock.get_rawtime()
@@ -431,7 +432,9 @@ def gameplay():
                 game_state = place_block(current_block, game_state)
                 block_in_play = False
                 score += 1
-                score = remove_blocks(game_state, score, level)
+                score, clears = remove_blocks(game_state, score, level)
+                lines_cleared += clears
+                level = (lines_cleared // 10) + 1
 
     game_over(score)
         
