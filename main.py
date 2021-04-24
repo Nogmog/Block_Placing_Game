@@ -292,7 +292,7 @@ def remove_blocks(game_state, score, level): # Removes blocks if in line
             break
     return score
 
-def show_extras(score, level):
+def show_extras(score, level, hold_brick):
     #Showing Score
     starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) + ( (block_per_grid * 12) / 2)
     score_words = MAIN_FONT.render("SCORE", 1, WHITE)
@@ -331,6 +331,8 @@ def gameplay():
 
     run = True
     block_in_play = False
+    hold_brick = ""
+    hold_change = True
     rotate = 0
     current_block = []
     level = 5
@@ -343,6 +345,7 @@ def gameplay():
         
         if not block_in_play:
             block_in_play = True
+            hold_change = True
             rotate = 0
             current_block = block_to_game(game_state, queue[0])
             if current_block == "GAME OVER":
@@ -355,7 +358,7 @@ def gameplay():
         
         create_grid(game_state, current_block)
         show_queue(queue)
-        show_extras(score, level)
+        show_extras(score, level, hold_brick)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -375,6 +378,32 @@ def gameplay():
                     moved = move_block([0, 1], current_block, game_state)
                     if moved:
                         drop_time = 0
+                if event.key == pygame.K_c: #hold block
+                    if hold_change:
+                        hold_change = False
+                        drop_time = 0
+
+                        for i in range(16):
+                            x = i % 4
+                            y = i // 4
+
+                            item = current_block[y + 1][x]
+                            if item == ".": continue
+                            else: 
+                                brick_name = item 
+                                break
+                        
+                        if hold_brick == "":
+                            hold_brick = brick_name
+                            current_block = block_to_game(game_state, queue[0])
+                            queue.pop(0)
+                            queue = update_queue(queue)
+                        
+                        else:
+                            current_block = block_to_game(game_state, hold_brick)
+                            hold_brick = brick_name
+
+                            
         pygame.display.update()
 
         if (drop_time / 200) > (1 / level):
