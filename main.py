@@ -292,12 +292,19 @@ def remove_blocks(game_state, score, level): # Removes blocks if in line
             break
     return score
 
-def game_over():
+def game_over(score):
     size_x, size_y = WIDTH // 2, HEIGHT // 3
     x_pos, y_pos = (WIDTH / 2) - (size_x / 2), (HEIGHT / 2) - (size_y / 2)
-    background_window = pygame.Rect(x_pos, y_pos, size_x, size_y) 
-    pygame.draw.rect(WINDOW, DARK_GREY, background_window)
 
+    background_window = pygame.Rect(x_pos, y_pos, size_x, size_y) 
+    
+    game_over_text = MAIN_FONT.render("GAME OVER", 1, WHITE)
+    score_text = MAIN_FONT.render("SCORE: "+str(score), 1, WHITE)
+
+    pygame.draw.rect(WINDOW, DARK_GREY, background_window)
+    WINDOW.blit(game_over_text, (x_pos, y_pos))
+    WINDOW.blit(score_text, (x_pos, y_pos + 50))
+    
     pygame.display.update()
 
 def gameplay():
@@ -368,7 +375,7 @@ def gameplay():
                 score += 1
                 score = remove_blocks(game_state, score, level)
 
-    game_over()
+    game_over(score)
         
 
 if __name__ == "__main__":
