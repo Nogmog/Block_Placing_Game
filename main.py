@@ -306,6 +306,23 @@ def show_extras(score, level, hold_brick):
     level_numbers = MAIN_FONT.render(str(level), 1, WHITE)
     WINDOW.blit(level_words, (level_x, level_y))
     WINDOW.blit(level_numbers, (level_x, level_y + block_per_grid))
+    
+    #Show held brick
+    brick_y = (HEIGHT / 2) - (block_per_grid * 9)
+    if hold_brick == "I":
+        WINDOW.blit(block_images[0], (level_x, brick_y))
+    elif hold_brick == "J":
+        WINDOW.blit(block_images[1], (level_x, brick_y))
+    elif hold_brick == "L":
+        WINDOW.blit(block_images[2], (level_x, brick_y))
+    elif hold_brick == "O":
+        WINDOW.blit(block_images[3], (level_x, brick_y))
+    elif hold_brick == "S":
+        WINDOW.blit(block_images[4], (level_x, brick_y))
+    elif hold_brick == "Z":
+        WINDOW.blit(block_images[5], (level_x, brick_y))
+    elif hold_brick == "T":
+        WINDOW.blit(block_images[6], (level_x, brick_y))
 
 def game_over(score):
     size_x, size_y = WIDTH // 2, HEIGHT // 3
