@@ -292,6 +292,21 @@ def remove_blocks(game_state, score, level): # Removes blocks if in line
             break
     return score
 
+def show_extras(score, level):
+    #Showing Score
+    starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) + ( (block_per_grid * 12) / 2)
+    score_words = MAIN_FONT.render("SCORE", 1, WHITE)
+    score_numbers = MAIN_FONT.render(str(score), 1, WHITE)
+    WINDOW.blit(score_words, (starting_x,starting_y))
+    WINDOW.blit(score_numbers, (starting_x, starting_y + block_per_grid))
+
+    #Showing Level
+    level_x, level_y = (WIDTH / 2) - (block_per_grid * 8), (HEIGHT / 2) - (block_per_grid * 6)
+    level_words = MAIN_FONT.render("LEVEL", 1, WHITE)
+    level_numbers = MAIN_FONT.render(str(level), 1, WHITE)
+    WINDOW.blit(level_words, (level_x, level_y))
+    WINDOW.blit(level_numbers, (level_x, level_y + block_per_grid))
+
 def game_over(score):
     size_x, size_y = WIDTH // 2, HEIGHT // 3
     x_pos, y_pos = (WIDTH / 2) - (size_x / 2), (HEIGHT / 2) - (size_y / 2)
@@ -340,12 +355,7 @@ def gameplay():
         
         create_grid(game_state, current_block)
         show_queue(queue)
-
-        starting_x, starting_y = (WIDTH / 2) + block_per_grid * 6, (HEIGHT / 2) + ( (block_per_grid * 12) / 2)
-        score_words = MAIN_FONT.render("SCORE", 1, WHITE)
-        score_numbers = MAIN_FONT.render(str(score), 1, WHITE)
-        WINDOW.blit(score_words, (starting_x,starting_y))
-        WINDOW.blit(score_numbers, (starting_x,starting_y + block_per_grid))
+        show_extras(score, level)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
