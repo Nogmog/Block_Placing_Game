@@ -213,15 +213,15 @@ def move_block(coordinates, current_block, game_state): # function to move block
 
     return moved
 
-def rotate_block(current_block, game_state, rotate):
-    print("Rotate block initiated")
+def rotate_block(current_block, game_state, rotate, movement):
+    rotate += movement
     new_rotation = [current_block[0]]
     for i in range(16): # makes new rotated block
         x = i % 4
         y = i // 4
         item = current_block[y + 1][x]
         if item == "O":
-            return current_block, rotate - 1
+            return current_block, rotate + movement
         elif item != ".":
             rotation_length = len(bricks.__getattribute__(bricks, item))
             new_rotate_list = bricks.__getattribute__(bricks, item)[rotate % rotation_length]
@@ -246,10 +246,10 @@ def rotate_block(current_block, game_state, rotate):
 
         if game_state[c_block_y][c_block_x] == ".": # x coord check
             movable += 1
-    print(movable)
+    
     if movable == 4:
         return new_rotation, rotate
-    else: return current_block, rotate - 1
+    else: return current_block, rotate + movement
 
 def place_block(current_block, game_state):
     for num in range(16):
@@ -368,9 +368,9 @@ def gameplay():
                 if event.key == pygame.K_RIGHT: # move right 
                    move_block([1, 0], current_block, game_state)
                 if event.key == pygame.K_UP: # rotate
-                    current_block, rotate = rotate_block(current_block, game_state, rotate + 1)
+                    current_block, rotate = rotate_block(current_block, game_state, rotate, 1)
                 if event.key == pygame.K_z: # anti - clockwise
-                    current_block, rotate = rotate_block(current_block, game_state, rotate - 1)
+                    current_block, rotate = rotate_block(current_block, game_state, rotate, -1)
                 if event.key == pygame.K_DOWN: # down
                     moved = move_block([0, 1], current_block, game_state)
                     if moved:
