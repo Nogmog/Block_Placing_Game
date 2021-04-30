@@ -481,8 +481,20 @@ def main_menu():
     while run:
         WINDOW.fill(BLACK)
         title_text = MAIN_FONT.render("BLOCK PLACING GAME", 1, WHITE)
+        play_text = WORD_FONT.render("PLAY GAME", 1, WHITE)
+        text_items = [play_text]
+
+        WINDOW.blit(play_text, (50, HEIGHT // 2))
         WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), 30))
         pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            
+            if event.type == pygame.MOUSEBUTTONUP:
+                print("clicked")
+                
 
 
 
