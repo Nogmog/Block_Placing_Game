@@ -1,6 +1,7 @@
 import pygame
 import os
 import random
+import string
 
 pygame.font.init()
 pygame.mixer.init()
@@ -328,16 +329,52 @@ def game_over(score):
     size_x, size_y = WIDTH // 2, HEIGHT // 3
     x_pos, y_pos = (WIDTH / 2) - (size_x / 2), (HEIGHT / 2) - (size_y / 2)
 
-    background_window = pygame.Rect(x_pos, y_pos, size_x, size_y) 
-    
     game_over_text = MAIN_FONT.render("GAME OVER", 1, WHITE)
     score_text = MAIN_FONT.render("SCORE: "+str(score), 1, WHITE)
 
-    pygame.draw.rect(WINDOW, DARK_GREY, background_window)
-    WINDOW.blit(game_over_text, (x_pos, y_pos))
-    WINDOW.blit(score_text, (x_pos, y_pos + 50))
-    
-    pygame.display.update()
+    alphabet = string.ascii_uppercase
+    letter_one, letter_two, letter_three = 0, 0, 0
+    letter_choices = [letter_one, letter_two, letter_three]
+
+    letter_x = x_pos + size_x // 2
+    current_choice = 0
+    letter_colours = [YELLOW, WHITE, WHITE]
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    letter_choices[current_choice] += 1
+                if event.key == pygame.K_DOWN: 
+                    letter_choices[current_choice] -= 1
+                if event.key == pygame.K_RIGHT:
+                    letter_colours[current_choice] = WHITE
+                    current_choice = (current_choice + 1) % 3
+                    letter_colours[current_choice] = YELLOW
+                if event.key == pygame.K_LEFT:
+                    letter_colours[current_choice] = WHITE
+                    current_choice = (current_choice - 1) % 3
+                    letter_colours[current_choice] = YELLOW
+                if event.key == pygame.K_RETURN:
+                    print("Submitting results......")
+                    
+        
+        background_window = pygame.Rect(x_pos, y_pos, size_x, size_y) 
+        pygame.draw.rect(WINDOW, DARK_GREY, background_window)
+        WINDOW.blit(game_over_text, (x_pos, y_pos))
+        WINDOW.blit(score_text, (x_pos, y_pos + 50))
+
+        first_letter = MAIN_FONT.render(alphabet[letter_choices[0] % 26], 1, letter_colours[0])
+        second_letter = MAIN_FONT.render(alphabet[letter_choices[1] % 26], 1, letter_colours[1])
+        third_letter = MAIN_FONT.render(alphabet[letter_choices[2] % 26], 1, letter_colours[2])
+
+        WINDOW.blit(first_letter, (letter_x, y_pos + 100))
+        WINDOW.blit(second_letter, (letter_x + block_per_grid, y_pos + 100))
+        WINDOW.blit(third_letter, (letter_x + (block_per_grid * 2), y_pos + 100))
+
+        pygame.display.update()
 
 def gameplay():
     print("Starting new game!")
