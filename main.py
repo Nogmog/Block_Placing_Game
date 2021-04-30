@@ -43,6 +43,7 @@ block_per_grid = (HEIGHT - HEIGHT*0.1) // 20
 MAIN_FONT = pygame.font.SysFont("Comic Sans MS", 20)
 SCORE_WORD = pygame.font.SysFont("Comic Sans MS", 20)
 SCORE_NUMBER = pygame.font.SysFont("Comic Sans MS", 20)
+WORD_FONT = pygame.font.SysFont("Comic Sans MS", 15)
 BLACK_WALL = pygame.transform.scale(BLACK_WALL, (WIDTH, HEIGHT))
 
 #SETTING UP PYGAME
@@ -474,7 +475,16 @@ def gameplay():
                 level = (lines_cleared // 10) + 1
 
     game_over(score)
-        
+
+def main_menu():
+    run = True
+    while run:
+        WINDOW.fill(BLACK)
+        title_text = MAIN_FONT.render("BLOCK PLACING GAME", 1, WHITE)
+        WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), 30))
+        pygame.display.update()
+
+
 
 if __name__ == "__main__":
-    gameplay() 
+    main_menu() 
