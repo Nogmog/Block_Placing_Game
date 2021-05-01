@@ -357,8 +357,12 @@ def game_over(score):
                     letter_colours[current_choice] = WHITE
                     current_choice = (current_choice - 1) % 3
                     letter_colours[current_choice] = YELLOW
-                if event.key == pygame.K_RETURN:
-                    print("Submitting results......")
+                if event.key == pygame.K_RETURN: # Entering score
+                    name = alphabet[letter_choices[0] % 26] + alphabet[letter_choices[1] % 26] + alphabet[letter_choices[2] % 26]
+                    file = open(os.path.join("Code", "Leaderboard.txt"), "a+")
+                    file.write(name+":"+str(score)+"\n")
+                    file.close()
+                    main_menu()
                     
         
         background_window = pygame.Rect(x_pos, y_pos, size_x, size_y) 
@@ -475,11 +479,47 @@ def gameplay():
 
     game_over(score)
 
+def sort_leaderboard():
+    
+    print("Sorting")
+    reading_file = open(os.path.join("Code", "Leaderboard.txt"), "r+")
+    read_lines = reading_file.readlines()
+
+    scores = []
+    for x in range(len(read_lines)):
+        temp = read_lines[x].split(":")
+        temp[1] = temp[1].rstrip("\n")
+        scores.append(temp)
+    
+    scores.sort(reverse=True, key=lambda x: int(x[1]))
+    
+    write_file = open(os.path.join("Code", "Leaderboard.txt"), "w+")
+    for i in range(len(scores)):
+        glued = scores[i][0]+":"+scores[i][1]+"\n"
+        write_file.write(glued)
+    write_file.close()
+
 def options():
     print("Options")
 
 def leaderboard():
-    print("Leaderboard")
+    file = open(os.path.join("Code", "Leaderboard.txt"), "r+")
+    sort_leaderboard()
+    
+    while True:
+        WINDOW.fill(BLACK)
+        title_text = MAIN_FONT.render("LEADERBOARD", 1, WHITE)
+        WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), block_per_grid))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    break
+        
+        pygame.display.update()
+    main_menu()
 
 def main_menu():
     run = True
