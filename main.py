@@ -478,22 +478,45 @@ def gameplay():
 
 def main_menu():
     run = True
+
     while run:
+        width, height = 200, 30
         WINDOW.fill(BLACK)
         title_text = MAIN_FONT.render("BLOCK PLACING GAME", 1, WHITE)
         play_text = WORD_FONT.render("PLAY GAME", 1, WHITE)
-        text_items = [play_text]
+        option_text = WORD_FONT.render("OPTIONS", 1, WHITE)
+        leaderboard_text = WORD_FONT.render("LEADERBOARD", 1, WHITE)
 
-        WINDOW.blit(play_text, (50, HEIGHT // 2))
-        WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), 30))
+        play_bg = pygame.Rect(block_per_grid, (HEIGHT // 3), width, height)
+        option_bg = pygame.Rect(block_per_grid, (HEIGHT // 3) + (block_per_grid * 2), width, height)
+        leaderboard_bg = pygame.Rect(block_per_grid, (HEIGHT // 3) + (block_per_grid * 4), width, height)
+
+        pygame.draw.rect(WINDOW, LIGHT_GREY, play_bg)
+        pygame.draw.rect(WINDOW, LIGHT_GREY, option_bg)
+        pygame.draw.rect(WINDOW, LIGHT_GREY, leaderboard_bg)
+
+        
+        WINDOW.blit(play_text, (block_per_grid, HEIGHT // 3))
+        WINDOW.blit(option_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
+        WINDOW.blit(leaderboard_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
+        
+        WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), block_per_grid))
+
         pygame.display.update()
-
+        mx, my = pygame.mouse.get_pos()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             
             if event.type == pygame.MOUSEBUTTONUP:
-                print("clicked")
+                mx, my = pygame.mouse.get_pos()
+
+        if play_bg.collidepoint((mx, my)):
+            print("Clicked")
+        
+            
+
                 
 
 
