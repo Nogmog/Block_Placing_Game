@@ -476,6 +476,12 @@ def gameplay():
 
     game_over(score)
 
+def options():
+    print("Options")
+
+def leaderboard():
+    print("Leaderboard")
+
 def main_menu():
     run = True
 
@@ -494,26 +500,42 @@ def main_menu():
         pygame.draw.rect(WINDOW, LIGHT_GREY, play_bg)
         pygame.draw.rect(WINDOW, LIGHT_GREY, option_bg)
         pygame.draw.rect(WINDOW, LIGHT_GREY, leaderboard_bg)
-
-        
-        WINDOW.blit(play_text, (block_per_grid, HEIGHT // 3))
-        WINDOW.blit(option_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
-        WINDOW.blit(leaderboard_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
         
         WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), block_per_grid))
 
-        pygame.display.update()
         mx, my = pygame.mouse.get_pos()
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             
             if event.type == pygame.MOUSEBUTTONUP:
-                mx, my = pygame.mouse.get_pos()
+                if event.button == 1:
+                    if play_bg.collidepoint((mx, my)):
+                        gameplay()
+                    elif option_bg.collidepoint((mx, my)):
+                        options()
+                    elif leaderboard_bg.collidepoint((mx, my)):
+                        leaderboard()
+
 
         if play_bg.collidepoint((mx, my)):
-            print("Clicked")
+            pygame.draw.rect(WINDOW, brick_colours.T, play_bg)
+        else: pygame.draw.rect(WINDOW, LIGHT_GREY, play_bg)
+
+        if option_bg.collidepoint((mx, my)):
+            pygame.draw.rect(WINDOW, brick_colours.T, option_bg)
+        else: pygame.draw.rect(WINDOW, LIGHT_GREY, option_bg)
+        
+        if leaderboard_bg.collidepoint((mx, my)):
+            pygame.draw.rect(WINDOW, brick_colours.T, leaderboard_bg)
+        else: pygame.draw.rect(WINDOW, LIGHT_GREY, leaderboard_bg)
+        
+        WINDOW.blit(play_text, (block_per_grid, HEIGHT // 3))
+        WINDOW.blit(option_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
+        WINDOW.blit(leaderboard_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
+        
+        pygame.display.update()
         
             
 
