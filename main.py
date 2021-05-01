@@ -9,7 +9,6 @@ pygame.mixer.init()
 from Code.brick_shapes import bricks, brick_colours
 
 #LOADING IMAGES
-PROGRAMICON = pygame.image.load(os.path.join("Assets", "TetrisIcon.jpg"))
 BLACK_WALL = pygame.image.load(os.path.join("Assets", "Black wall.png"))
 
 I_img = pygame.image.load(os.path.join("Assets", "I block.png"))
@@ -49,7 +48,7 @@ BLACK_WALL = pygame.transform.scale(BLACK_WALL, (WIDTH, HEIGHT))
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("BLOCK PLACING GAME")
-pygame.display.set_icon(PROGRAMICON)
+pygame.display.set_icon(T_img)
 
 #GAME FUNCTIONS
 def resize_images(size):
@@ -534,7 +533,7 @@ def main_menu():
         WINDOW.blit(play_text, (block_per_grid, HEIGHT // 3))
         WINDOW.blit(option_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
         WINDOW.blit(leaderboard_text, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
-        
+
         pygame.display.update()
         
             
