@@ -34,7 +34,7 @@ BRONZE = (205, 127, 50)
 # GAME CONSTANTS
 FPS = 60
 WIDTH, HEIGHT = 720, 576 # 16:9 ratio
-#WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 1920, 1080
 
 #VARIABLES
 queue = []
@@ -503,7 +503,18 @@ def sort_leaderboard():
     write_file.close()
 
 def options():
-    print("Options")
+    run = True
+    while run:
+        WINDOW.fill(BLACK)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+
+        pygame.display.update()
+    main_menu()
 
 def leaderboard():
     sort_leaderboard()
