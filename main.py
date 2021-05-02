@@ -523,10 +523,6 @@ def options():
         size3_bg = pygame.Rect(block_per_grid, (HEIGHT // 3) + (block_per_grid * 4), size3.get_width(), size3.get_height())
 
         backgrounds = [size1_bg, size2_bg, size3_bg]
-
-        WINDOW.blit(size1, (block_per_grid, (HEIGHT // 3)))
-        WINDOW.blit(size2, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
-        WINDOW.blit(size3, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
         
         WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), block_per_grid))
         for event in pygame.event.get():
@@ -545,6 +541,10 @@ def options():
             if item.collidepoint((mx, my)):
                 pygame.draw.rect(WINDOW, brick_colours.T, item)
             else: pygame.draw.rect(WINDOW, LIGHT_GREY, item)
+        
+        WINDOW.blit(size1, (block_per_grid, (HEIGHT // 3)))
+        WINDOW.blit(size2, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
+        WINDOW.blit(size3, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
         
         pygame.display.update()
     main_menu()
