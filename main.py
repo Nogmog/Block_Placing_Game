@@ -10,6 +10,8 @@ from Code.brick_shapes import bricks, brick_colours
 
 #LOADING IMAGES
 BLACK_WALL = pygame.image.load(os.path.join("Assets", "Black wall.png"))
+LEGO_BG = pygame.image.load(os.path.join("Assets", "Lego background.jpg"))
+SQUARE_BG = pygame.image.load(os.path.join("Assets", "Square background.jpg"))
 
 I_img = pygame.image.load(os.path.join("Assets", "I block.png"))
 J_img = pygame.image.load(os.path.join("Assets", "J block.png"))
@@ -47,6 +49,8 @@ SCORE_WORD = pygame.font.SysFont("Comic Sans MS", 20)
 SCORE_NUMBER = pygame.font.SysFont("Comic Sans MS", 20)
 WORD_FONT = pygame.font.SysFont("Comic Sans MS", 15)
 BLACK_WALL = pygame.transform.scale(BLACK_WALL, (WIDTH, HEIGHT))
+LEGO_BG = pygame.transform.scale(LEGO_BG, (WIDTH, HEIGHT))
+SQUARE_BG = pygame.transform.scale(SQUARE_BG, (WIDTH, HEIGHT))
 
 #SETTING UP PYGAME
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -505,7 +509,7 @@ def sort_leaderboard():
 def options():
     run = True
     while run:
-        WINDOW.fill(BLACK)
+        WINDOW.blit(LEGO_BG, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -526,7 +530,7 @@ def leaderboard():
     print(amount)
     
     while run:
-        WINDOW.fill(BLACK)
+        WINDOW.blit(LEGO_BG, (0, 0))
         background = pygame.Rect(starting_x, starting_y, org_width, org_height)
         pygame.draw.rect(WINDOW, DARK_GREY, background)
 
@@ -596,7 +600,7 @@ def main_menu():
 
     while run:
         width, height = 200, 30
-        WINDOW.fill(BLACK)
+        WINDOW.blit(LEGO_BG, (0, 0))
         title_text = MAIN_FONT.render("BLOCK PLACING GAME", 1, WHITE)
         play_text = WORD_FONT.render("PLAY GAME", 1, WHITE)
         option_text = WORD_FONT.render("OPTIONS", 1, WHITE)
