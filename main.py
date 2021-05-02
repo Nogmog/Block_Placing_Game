@@ -509,14 +509,15 @@ def sort_leaderboard():
 def options():
     run = True
     while run:
+        global WIDTH, HEIGHT, WINDOW
         WINDOW.blit(LEGO_BG, (0, 0))
 
         mx, my = pygame.mouse.get_pos()
 
         title_text = MAIN_FONT.render("OPTIONS", 1, WHITE)
         size1 = WORD_FONT.render("1920 x 1080", 1, WHITE)
-        size2 = WORD_FONT.render("720 x 576", 1, WHITE)
-        size3 = WORD_FONT.render("1280 x 720", 1, WHITE)
+        size2 = WORD_FONT.render("1280 x 720", 1, WHITE)
+        size3 = WORD_FONT.render("720 x 576", 1, WHITE)
 
         size1_bg = pygame.Rect(block_per_grid, (HEIGHT // 3), size1.get_width(), size1.get_height())
         size2_bg = pygame.Rect(block_per_grid, (HEIGHT // 3) + (block_per_grid * 2), size2.get_width(), size2.get_height())
@@ -534,7 +535,9 @@ def options():
             
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
-                    pass
+                    if size1_bg.collidepoint(mx, my):
+                        WIDTH, HEIGHT = 1920, 1080
+                        WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
         
         for x in range(len(backgrounds)):
             item = backgrounds[x]
