@@ -36,7 +36,7 @@ BRONZE = (205, 127, 50)
 # GAME CONSTANTS
 FPS = 60
 WIDTH, HEIGHT = 720, 576 # 16:9 ratio
-WIDTH, HEIGHT = 1920, 1080
+#WIDTH, HEIGHT = 1920, 1080
 
 #VARIABLES
 queue = []
@@ -510,13 +510,42 @@ def options():
     run = True
     while run:
         WINDOW.blit(LEGO_BG, (0, 0))
+
+        mx, my = pygame.mouse.get_pos()
+
+        title_text = MAIN_FONT.render("OPTIONS", 1, WHITE)
+        size1 = WORD_FONT.render("1920 x 1080", 1, WHITE)
+        size2 = WORD_FONT.render("720 x 576", 1, WHITE)
+        size3 = WORD_FONT.render("1280 x 720", 1, WHITE)
+
+        size1_bg = pygame.Rect(block_per_grid, (HEIGHT // 3), size1.get_width(), size1.get_height())
+        size2_bg = pygame.Rect(block_per_grid, (HEIGHT // 3) + (block_per_grid * 2), size2.get_width(), size2.get_height())
+        size3_bg = pygame.Rect(block_per_grid, (HEIGHT // 3) + (block_per_grid * 4), size3.get_width(), size3.get_height())
+
+        backgrounds = [size1_bg, size2_bg, size3_bg]
+
+        WINDOW.blit(size1, (block_per_grid, (HEIGHT // 3)))
+        WINDOW.blit(size2, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 2)))
+        WINDOW.blit(size3, (block_per_grid, (HEIGHT // 3) + (block_per_grid * 4)))
+        
+        WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), block_per_grid))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
-
+            
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    pass
+        
+        for x in range(len(backgrounds)):
+            item = backgrounds[x]
+            if item.collidepoint((mx, my)):
+                pygame.draw.rect(WINDOW, brick_colours.T, item)
+            else: pygame.draw.rect(WINDOW, LIGHT_GREY, item)
+        
         pygame.display.update()
     main_menu()
 
