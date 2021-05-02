@@ -27,6 +27,9 @@ WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 DARK_GREY = (64, 64, 64)
 LIGHT_GREY = (102, 102, 102)
+GOLD = (255, 215, 0)
+SILVER = (192, 192, 192) 
+BRONZE = (205, 127, 50)
 
 # GAME CONSTANTS
 FPS = 60
@@ -503,21 +506,77 @@ def options():
     print("Options")
 
 def leaderboard():
-    file = open(os.path.join("Code", "Leaderboard.txt"), "r+")
     sort_leaderboard()
     
-    while True:
+    run = True
+    org_width, org_height = WIDTH // 2, HEIGHT - (block_per_grid * 3)
+    starting_x, starting_y = WIDTH // 2 - (org_width // 2), block_per_grid * 3
+    amount = int((org_height - (block_per_grid * 5)) // 40) + 3
+    print(amount)
+    
+    while run:
         WINDOW.fill(BLACK)
+        background = pygame.Rect(starting_x, starting_y, org_width, org_height)
+        pygame.draw.rect(WINDOW, DARK_GREY, background)
+
         title_text = MAIN_FONT.render("LEADERBOARD", 1, WHITE)
         WINDOW.blit(title_text, (WIDTH // 2 - (title_text.get_width() // 2), block_per_grid))
 
+        file = open(os.path.join("Code", "Leaderboard.txt"), "r+")
+        for i in range(amount):
+            current_line = file.readline()
+            if current_line != "":
+                score = current_line[4::].rstrip("\n")
+                name = current_line[:3]
+            else:
+                name = "NONE"
+                score = "0"
+            
+            podium_width = (org_width - (block_per_grid * 3)) // 3
+            if i == 0:
+                gold_text = MAIN_FONT.render(name, 1, WHITE)
+                WINDOW.blit(gold_text, (starting_x + (org_width // 2) - gold_text.get_width() // 2, starting_y + block_per_grid))
+
+                gold_block = pygame.Rect(starting_x + (org_width // 2) - podium_width // 2, starting_y + (block_per_grid * 2), podium_width, block_per_grid * 5)
+                pygame.draw.rect(WINDOW, GOLD, gold_block)
+
+                gold_score_text = MAIN_FONT.render(score, 1, BLACK)
+                WINDOW.blit(gold_score_text, (starting_x + (org_width // 2) - gold_score_text.get_width() // 2, starting_y + (block_per_grid * 6)))
+            elif i == 1:
+                silver_text = MAIN_FONT.render(name, 1, WHITE)
+                WINDOW.blit(silver_text, (starting_x + (org_width // 2) - silver_text.get_width() // 2 - podium_width, starting_y + block_per_grid * 2))
+
+                silver_block = pygame.Rect(starting_x + (org_width // 2) - (podium_width // 2) - podium_width, starting_y + (block_per_grid * 3), podium_width, block_per_grid * 4)
+                pygame.draw.rect(WINDOW, SILVER, silver_block)
+
+                silver_score_text = MAIN_FONT.render(score, 1, BLACK)
+                WINDOW.blit(silver_score_text, (starting_x + (org_width // 2) - silver_score_text.get_width() // 2 - podium_width, starting_y + (block_per_grid * 6)))
+            elif i == 2:
+                bronze_text = MAIN_FONT.render(name, 1, WHITE)
+                WINDOW.blit(bronze_text, (starting_x + (org_width // 2) - bronze_text.get_width() // 2 + podium_width, starting_y + block_per_grid * 3))
+
+                bronze_block = pygame.Rect(starting_x + (org_width // 2) - (podium_width // 2) + podium_width, starting_y + (block_per_grid * 4), podium_width, block_per_grid * 3)
+                pygame.draw.rect(WINDOW, BRONZE, bronze_block)
+
+                bronze_score_text = MAIN_FONT.render(score, 1, BLACK)
+                WINDOW.blit(bronze_score_text, (starting_x + (org_width // 2) - bronze_score_text.get_width() // 2 + podium_width, starting_y + (block_per_grid * 6)))
+            else:
+                words = str(i + 1) + ". "+name+": "+score
+                player_text = WORD_FONT.render(words, 1, WHITE)
+                WINDOW.blit(player_text, (starting_x + block_per_grid, (block_per_grid * 11) + (32 * (i - 3))))
+                #org_height - (block_per_grid * 5)) // 40
+                
+                
+            
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    break
+                    run = False
         
+        #file.close()
         pygame.display.update()
     main_menu()
 
